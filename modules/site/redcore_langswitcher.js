@@ -22,7 +22,7 @@ var directPath       = './modules/site/mod_redcore_language_switcher';
 
 var extPath   = fs.existsSync(subextensionPath) ? subextensionPath : directPath;
 
-var mediaPath = extPath;
+var mediaPath = extPath + '/media/mod_redcore_language_switcher';
 
 // Clean
 gulp.task('clean:' + baseTask, ['clean:' + baseTask + ':media'], function() {
@@ -38,8 +38,8 @@ gulp.task('clean:' + baseTask + ':media', function() {
 gulp.task('copy:' + baseTask, ['clean:' + baseTask, 'copy:' + baseTask + ':media'], function() {
     return gulp.src([
 	        extPath + '/**',
-	        '!' + mediaPath + '/css',
-	        '!' + mediaPath + '/css/**'
+					'!' + extPath + '/media',
+					'!' + extPath + '/media/**'
     	])
 		.pipe(gulp.dest(config.wwwDir + '/modules/mod_redcore_language_switcher'));
 });
