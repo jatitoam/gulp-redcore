@@ -9,6 +9,11 @@ catch(err) {
 	var config = require('../../../../gulp-config.json');
 }
 
+var watchInterval = 500;
+if (typeof config.watchInterval !== 'undefined') {
+	watchInterval = config.watchInterval;
+}
+
 // Dependencies
 var browserSync = require('browser-sync');
 var minifyCSS   = require('gulp-minify-css');
@@ -83,7 +88,9 @@ gulp.task('watch:' + baseTask + ':module', function() {
     	extPath + '/**/*',
     	'!' + mediaPath + '/css',
     	'!' + mediaPath + '/css/**'
-    ], ['copy:' + baseTask, browserSync.reload]);
+    ],
+		{ interval: watchInterval },
+		['copy:' + baseTask, browserSync.reload]);
 });
 
 // Watch: Styles
@@ -91,5 +98,7 @@ gulp.task('watch:' + baseTask + ':styles', function() {
     gulp.watch([
     	mediaPath + '/css/*.css',
     	'!' + mediaPath + '/css/*.min.css'
-    ], ['styles:' + baseTask, browserSync.reload]);
+    ],
+		{ interval: watchInterval },
+		['styles:' + baseTask, browserSync.reload]);
 });

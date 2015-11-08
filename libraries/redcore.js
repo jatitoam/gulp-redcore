@@ -10,6 +10,11 @@ catch(err) {
 	var config = require('../../../gulp-config.json');
 }
 
+var watchInterval = 500;
+if (typeof config.watchInterval !== 'undefined') {
+	watchInterval = config.watchInterval;
+}
+
 // Dependencies
 var browserSync = require('browser-sync');
 var del         = require('del');
@@ -83,15 +88,21 @@ gulp.task('watch:' +  baseTask + ':library', function() {
 	gulp.watch([
 			extPath + '/**/*',
 			'!' + extPath + '/redcore.xml'
-		], ['copy:' + baseTask + ':library', browserSync.reload]);
+		],
+		{ interval: watchInterval },
+		['copy:' + baseTask + ':library', browserSync.reload]);
 });
 
 // Watch: languages
 gulp.task('watch:' +  baseTask + ':languages', function() {
-	gulp.watch(extPath + '/language/**/*', ['copy:' + baseTask + ':languages', browserSync.reload]);
+	gulp.watch(extPath + '/language/**/*',
+	{ interval: watchInterval },
+	['copy:' + baseTask + ':languages', browserSync.reload]);
 });
 
 // Watch: manifest
 gulp.task('watch:' +  baseTask + ':manifest', function() {
-	gulp.watch(extPath + '/redcore.xml', ['copy:' + baseTask + ':manifest', browserSync.reload]);
+	gulp.watch(extPath + '/redcore.xml',
+	{ interval: watchInterval },
+	['copy:' + baseTask + ':manifest', browserSync.reload]);
 });

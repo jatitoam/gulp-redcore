@@ -10,6 +10,11 @@ catch(err) {
 	var config = require('../../../gulp-config.json');
 }
 
+var watchInterval = 500;
+if (typeof config.watchInterval !== 'undefined') {
+	watchInterval = config.watchInterval;
+}
+
 // Dependencies
 var browserSync = require('browser-sync');
 var del         = require('del');
@@ -82,6 +87,7 @@ gulp.task('watch:' + baseTask,
 // Watch cli
 gulp.task('watch:' + baseTask + ':cli', function() {
 	gulp.watch(extPath + '/cli/**/*',
+	{ interval: watchInterval },
 	['copy:' + baseTask + ':cli', browserSync.reload]);
 });
 
@@ -92,5 +98,6 @@ gulp.task('watch:' + baseTask + ':backend', function() {
 		extPath + '/../redcore.xml',
 		extPath + '/../install.php'
 	],
+	{ interval: watchInterval },
 	['copy:' + baseTask + ':backend', browserSync.reload]);
 });

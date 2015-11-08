@@ -9,6 +9,11 @@ catch(err) {
 	var config = require('../../../../gulp-config.json');
 }
 
+var watchInterval = 500;
+if (typeof config.watchInterval !== 'undefined') {
+	watchInterval = config.watchInterval;
+}
+
 // Dependencies
 var browserSync = require('browser-sync');
 var del         = require('del');
@@ -41,5 +46,7 @@ gulp.task('watch:' + baseTask,
 
 // Watch: plugin
 gulp.task('watch:' + baseTask + ':plugin', function() {
-	gulp.watch(extPath + '/**/*', ['copy:' + baseTask, browserSync.reload]);
+	gulp.watch(extPath + '/**/*',
+	{ interval: watchInterval },
+	['copy:' + baseTask, browserSync.reload]);
 });

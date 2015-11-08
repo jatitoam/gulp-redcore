@@ -9,6 +9,11 @@ catch(err) {
 	var config = require('../../../gulp-config.json');
 }
 
+var watchInterval = 500;
+if (typeof config.watchInterval !== 'undefined') {
+	watchInterval = config.watchInterval;
+}
+
 // Dependencies
 var browserSync = require('browser-sync');
 var del         = require('del');
@@ -151,6 +156,7 @@ gulp.task('watch:' + baseTask + ':less',
 	function() {
 		gulp.watch(
 			[extPath + '/less/**/*.less'],
+			{ interval: watchInterval },
 			['less:' + baseTask, browserSync.reload]
 		);
 });
@@ -163,6 +169,7 @@ gulp.task('watch:' + baseTask + ':scripts',
 			'!' + extPath + '/js/lib/**',
 			'!' + extPath + '/js/**/*.min.js'
 		],
+		{ interval: watchInterval },
 		['scripts:' + baseTask, browserSync.reload]);
 });
 
@@ -174,6 +181,7 @@ gulp.task('watch:' + baseTask + ':styles',
 			'!' + extPath + '/css/lib/**',
 			'!' + extPath + '/css/*.min.css'
 		],
+		{ interval: watchInterval },
 		['styles:' + baseTask, browserSync.reload]);
 });
 
@@ -181,6 +189,7 @@ gulp.task('watch:' + baseTask + ':styles',
 gulp.task('watch:' + baseTask + ':translations',
 	function() {
 		gulp.watch([extPath + '/translations/**/*.xml'],
+		{ interval: watchInterval },
 		['copy:' + baseTask + ':translations', browserSync.reload]);
 });
 
@@ -188,5 +197,6 @@ gulp.task('watch:' + baseTask + ':translations',
 gulp.task('watch:' + baseTask + ':webservices',
 	function() {
 		gulp.watch([extPath + '/webservices/**/*'],
+		{ interval: watchInterval },
 		['copy:' + baseTask + ':webservices', browserSync.reload]);
 });
